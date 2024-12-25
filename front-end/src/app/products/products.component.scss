@@ -1,0 +1,27 @@
+mat-card{
+    max-width: 80%;
+    margin: 2em auto;
+    text-align: center;
+}
+
+.column-flex{
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.table mat-toolbar{
+    background-color: #424242;
+}
+
+.loading-spinner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.15);
+    padding: 25px;
+}
+
+button{
+    color:white;
+}

@@ -1,0 +1,39 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filter" #input>
+</mat-form-field>
+
+<mat-table [dataSource]="products">
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Produto </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef> Preço </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.price}} 
+        <mat-icon aria-hidden="false" aria-label="Preço do Produto">{{ element.price }}</mat-icon> 
+    </mat-cell>
+    </ng-container>
+
+    <!-- Category Column -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="action-column">
+            <button mat-mini-fab aria-label="Adicionar Produto" (click)="onAdd()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let product" class="action-column">
+            <button mat-icon-button aria-label="Editar Curso" style="color: aqua" (click)="onEdit(product)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Deletar Curso" style="color: red" (click)="onDelete(product)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

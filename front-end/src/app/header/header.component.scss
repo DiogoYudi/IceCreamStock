@@ -1,0 +1,43 @@
+header{
+    padding: 0;
+    border-bottom: 1px solid #e72929;
+}
+
+a{
+    color: #af1313;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.container{
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(49, 49, 49);
+}
+
+a.logo{
+    margin-left: 2em;
+}
+
+a.product{
+    text-decoration: none;
+}
+
+.container img{
+    width: 100px;
+    height: 100%;
+}
+
+
+nav ul{
+    list-style-type: none;
+    margin: 0;
+}
+
+nav ul li a{
+    padding: 2em;
+    display: inline-block;
+}
