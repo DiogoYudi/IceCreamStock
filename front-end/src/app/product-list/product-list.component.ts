@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule, 
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule,
+    MatFormFieldModule
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'

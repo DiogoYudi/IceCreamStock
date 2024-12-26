@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-error-dialog',
-  imports: [],
+  imports: [ MatDialogModule ],
   templateUrl: './error-dialog.component.html',
   styleUrl: './error-dialog.component.scss'
 })

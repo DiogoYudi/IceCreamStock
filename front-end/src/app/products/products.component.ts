@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.component';
 import { ProductListComponent } from '../product-list/product-list.component';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-products',
@@ -20,8 +19,7 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
     MatToolbarModule,
     MatProgressSpinnerModule,
     ProductListComponent,
-    CommonModule,
-    HttpClientModule,
+    CommonModule
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
