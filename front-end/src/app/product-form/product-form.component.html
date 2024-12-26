@@ -1,0 +1,37 @@
+<mat-card>
+    <mat-toolbar color="primary">Detalhes do Curso</mat-toolbar>
+
+    <mat-card-content>
+        <form [formGroup]="form" class="min-width">
+            <mat-form-field class="full-width">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome" formControlName="name" #name>
+                <mat-hint align="end" style="color: white">{{ name.value?.length || 0 }} / 100</mat-hint>
+                <mat-error *ngIf="form.get('name')?.invalid">{{ getErrorMessage("name") }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Preço</mat-label>
+                <input matInput placeholder="Preço" formControlName="price" #price>
+                <mat-hint align="end" style="color: white">{{ price.value?.length }}</mat-hint>
+                <mat-error *ngIf="form.get('price')?.invalid">{{ getErrorMessage("price") }}</mat-error>
+            </mat-form-field>
+    
+            <mat-form-field class="full-width">
+                <mat-label>Categoria</mat-label>
+                    <select matNativeControl required formControlName="category">
+                        <option value="Copo">Copo</option>
+                        <option value="Casquinha">Casquinha</option>
+                        <option value="Picole">Picole</option>
+                        <option value="Taca">Taça</option>
+                    </select>
+                <mat-error *ngIf="form.get('category')?.invalid">{{ getErrorMessage("category") }}</mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-raised-button (click)="onSubmit()">Salvar</button>
+        <button mat-raised-button (click)="onCancel()" style="color: white">Cancelar</button>
+    </mat-card-actions>
+</mat-card>

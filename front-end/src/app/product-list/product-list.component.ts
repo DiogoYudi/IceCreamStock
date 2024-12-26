@@ -37,20 +37,10 @@ export class ProductListComponent implements OnInit{
   }
 
   onEdit(product: Product){
-    console.log("A");
+    this.edit.emit(product);
   }
 
   onDelete(product: Product){
     this.delete.emit(product);
-  }
-
-  applyFilter(event: Event) {
-    console.log("a");
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  click(){
-    console.log("A");
   }
 }

@@ -1,0 +1,13 @@
+.container{
+    background-color: rgb(32, 32, 32);
+}
+
+mat-dialog-content p{
+    color: white;
+}
+
+mat-dialog-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
