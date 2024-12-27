@@ -23,13 +23,14 @@ export class ProductListComponent implements OnInit{
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() delete = new EventEmitter(false);
-  
+
+  productsAux: Product[] = [];
+
   readonly displayedColumns = ['name', 'price', 'actions'];
-  dataSource = new MatTableDataSource(this.products);
   constructor(){}
 
   ngOnInit(): void {
-      
+    this.productsAux = this.products;
   }
 
   onAdd(){
@@ -42,5 +43,14 @@ export class ProductListComponent implements OnInit{
 
   onDelete(product: Product){
     this.delete.emit(product);
+  }
+
+  filterResults(event: Event) {
+    this.products = this.productsAux;
+    const text = (event.target as HTMLInputElement).value;
+
+    this.products = this.products.filter(
+      housingLocation => housingLocation?.name.toLowerCase().includes(text.toLowerCase())
+    );
   }
 }

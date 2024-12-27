@@ -1,3 +1,8 @@
+<mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="filterResults($event)" placeholder="" #filter>
+</mat-form-field>
+
 <mat-table [dataSource]="products">
     <!-- Name Column -->
     <ng-container matColumnDef="name">
