@@ -81,4 +81,5 @@ DELETE /product/{id} - Inactivate data.
 The project uses MySQL Workbench as the database.]
 
 To install MySQL Workbench locally you can [click here](https://www.mysql.com/products/workbench/).
+
 To install Xampp locally you can [click here](https://www.apachefriends.org/pt_br/index.html).
