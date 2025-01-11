@@ -57,8 +57,10 @@ or
 ng s
 ```
 2. The API will be accessible at http://localhost:4200/
+   
 3. Start Apache & MySQL in Xampp
 ![Start Xampp](https://i.imgur.com/oxtjnFl.png)
+
 4. Start the application in IcecreamApplication.java
 ![Start Java](https://i.imgur.com/obVdNNz.png)
 
