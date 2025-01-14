@@ -50,6 +50,7 @@ export class ProductsComponent implements OnInit{
   }
 
   onAdd(){
+    console.log("A");
     this.router.navigate(['new'], { relativeTo:this.route });
   }
 
