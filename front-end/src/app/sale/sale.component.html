@@ -1,0 +1,44 @@
+<mat-table [dataSource]="filteredSales">
+    <!-- Table Column -->
+    <ng-container matColumnDef="table">
+        <mat-header-cell *matHeaderCellDef> Mesa </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tableNum}} </mat-cell>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="totalprice">
+        <mat-header-cell *matHeaderCellDef> Preço Total </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.totalprice}} 
+            <mat-icon aria-hidden="false" aria-label="Preço do Produto">{{ element.price }}</mat-icon> 
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.date}} 
+            <mat-icon aria-hidden="false" aria-label="Data da Venda">{{ element.date }}</mat-icon> 
+        </mat-cell>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef class="action-column">
+            <button mat-mini-fab aria-label="Adicionar Produto" (click)="onAdd()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let product" class="action-column">
+            <button mat-icon-button aria-label="Editar Curso" style="color: aqua" (click)="onEdit(product)">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Deletar Curso" style="color: red" (click)="onDelete(product)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category"></ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

@@ -6,7 +6,7 @@ import { Sale } from '../models/sale';
   providedIn: 'root'
 })
 export class SaleService {
-  private readonly API = 'http://localhost:8080/product';
+  private readonly API = 'http://localhost:8080/sale';
 
   constructor(private httpClient: HttpClient){}
 

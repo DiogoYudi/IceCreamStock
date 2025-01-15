@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit{
   refresh(){
     this.products$ = this.productService.list().pipe(
       catchError(error => {
-        this.onError("Erro ao carregar curso.");
+        this.onError("Erro ao carregar produto.");
         return of([])
       })
     );
@@ -50,7 +50,6 @@ export class ProductsComponent implements OnInit{
   }
 
   onAdd(){
-    console.log("A");
     this.router.navigate(['new'], { relativeTo:this.route });
   }
 
