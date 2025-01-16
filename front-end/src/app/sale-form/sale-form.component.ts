@@ -10,7 +10,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { SaleService } from '../service/sale.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { Sale } from '../models/sale';
+import { catchError, map, Observable, of } from 'rxjs';
+import { Product } from '../models/product';
+import { ProductService } from '../service/product.service';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -23,14 +27,17 @@ import { Sale } from '../models/sale';
     MatSelectModule,
     ReactiveFormsModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    MatGridListModule,
+    MatIconModule
   ],
   templateUrl: './sale-form.component.html',
   styleUrl: './sale-form.component.scss'
 })
 export class SaleFormComponent implements OnInit {
   form: FormGroup;
-  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute){
+  products$: Observable<{ category: string, products: Product[] }[]> | null = null;
+  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService){
     this.form = this.formBuilder.group({
       id: [],
       tableNum: ['', [Validators.required]],
@@ -38,22 +45,48 @@ export class SaleFormComponent implements OnInit {
       totalprice: [ [Validators.required]],
       date: [Validators.required],
     });
+
+    this.refresh();
   }
 
-  ngOnInit(): void {
-    const sale: Sale = this.route.snapshot.data['sale'];
-    if(sale.id == 0) sale.id = NaN;
-    this.form.setValue({
-      id: sale.id,
-      tableNum: sale.table,
-      status: true,
-      totalprice: sale.totalprice,
-      date: sale.date
-    });
+  refresh(){
+    this.products$ = this.productService.list().pipe(
+      map(products => this.groupByCategory(products)),
+      catchError(error => {
+        this.onError("Erro ao carregar produtos.");
+        return of([])
+      })
+    );
   }
+
+  groupByCategory(products: Product[]): { category: string, products: Product[] }[] {
+    const grouped = products.reduce((groups, product) => {
+      const category = product.category || 'Outras';
+      if (!groups[category]) {
+        groups[category] = [];
+      }
+      groups[category].push(product);
+      return groups;
+    }, {} as { [key: string]: Product[] });
+
+    return Object.keys(grouped).map(category => ({
+      category,
+      products: grouped[category]
+    }));
+  }
+
+  chunkArray(arr: any[], size: number): any[] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  }
+
+  ngOnInit(): void {}
 
   onSubmit(){
-    this.service.save(this.form.value).subscribe(result => this.onSucess(), error => this.onError());
+    this.service.save(this.form.value).subscribe(result => this.onSucess(), error => this.onError("Erro ao iniciar venda!"));
   }
 
   onCancel(){
@@ -65,8 +98,8 @@ export class SaleFormComponent implements OnInit {
     this.onCancel();
   }
 
-  private onError(){
-    this.snackBar.open("Erro ao iniciar venda!", "", { duration: 2000 });
+  private onError(message: string){
+    this.snackBar.open(message, "", { duration: 2000 });
   }
 
   getErrorMessage(fieldName: string){
@@ -74,5 +107,9 @@ export class SaleFormComponent implements OnInit {
 
     if(field?.hasError('required')) return "Campo Obrigatorio";
     return "Campo Inválido";
+  }
+
+  onAdd(){
+
   }
 }

@@ -5,6 +5,7 @@ import { Product } from '../models/product';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-product-list',
@@ -13,7 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatIconModule, 
     MatButtonModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatGridListModule
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'

@@ -1,26 +1,42 @@
-<mat-card>
-    <mat-toolbar color="primary">Detalhes da Venda</mat-toolbar>
+<div class="sale">
+    <!-- Seção de produtos -->
+    <div class="products-container">
+      <div class="product">
+        <mat-grid-list cols="4" rowHeight="4:1">
+          <div *ngIf="products$ | async as categories; else loading">
+            <div *ngFor="let category of categories">
+  
+              <mat-grid-tile [colspan]="4" [rowspan]="1" class="title">
+                <h3>{{ category.category }}</h3>
+              </mat-grid-tile>
+  
+              <div *ngFor="let chunk of chunkArray(category.products, 4)">
+                <mat-grid-tile *ngFor="let product of chunk">
+                  <div>
+                    {{ product.name }} <br><br>
+                    Preço: {{ product.price }}
+                    <button mat-mini-fab aria-label="Adicionar Produto" (click)="onAdd()">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                </mat-grid-tile>
+  
+                <!-- Adiciona tiles vazios caso não tenha 4 itens na última linha -->
+                <mat-grid-tile *ngIf="chunk.length < 4" colspan="{{ 4 - chunk.length }}" class="noItem">
+                </mat-grid-tile>
+              </div>
+            </div>
+          </div>
+        </mat-grid-list>
+      </div>
+    </div>
+  
+    <div class="cart">
+      <h3>Carrinho</h3>
+      <p>aaaaaaaaa</p>
+    </div>
+</div>
 
-    <mat-card-content>
-        <form [formGroup]="form" class="min-width">
-            <mat-form-field class="full-width">
-                <mat-label>Mesa</mat-label>
-                <input matInput placeholder="Mesa" formControlName="tableNum" #tableNum>
-                <mat-hint align="end" style="color: white">{{ tableNum.value }}</mat-hint>
-                <mat-error *ngIf="form.get('tableNum')?.invalid">{{ getErrorMessage("tableNum") }}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-                <mat-label>Preço</mat-label>
-                <input matInput placeholder="Preço" formControlName="totalprice" #totalprice>
-                <mat-hint align="end" style="color: white">{{ totalprice.value }}</mat-hint>
-                <mat-error *ngIf="form.get('totalprice')?.invalid">{{ getErrorMessage("totalprice") }}</mat-error>
-            </mat-form-field>
-        </form>
-    </mat-card-content>
-
-    <mat-card-actions>
-        <button mat-raised-button (click)="onSubmit()">Salvar</button>
-        <button mat-raised-button (click)="onCancel()" style="color: white">Cancelar</button>
-    </mat-card-actions>
-</mat-card>
+<ng-template #loading>
+    <p>Carregando produtos...</p>
+</ng-template>

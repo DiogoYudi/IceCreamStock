@@ -12,6 +12,7 @@ import { ErrorDialogComponent } from '../shared/error-dialog/error-dialog.compon
 import { ProductListComponent } from '../product-list/product-list.component';
 import { CommonModule } from '@angular/common';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-products',
@@ -20,7 +21,8 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
     MatToolbarModule,
     MatProgressSpinnerModule,
     ProductListComponent,
-    CommonModule
+    CommonModule,
+    MatGridListModule
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
