@@ -13,5 +13,5 @@ export const routes: Routes = [
     { path:'product/new', component:ProductFormComponent, resolve: { product: ProductResolver } },
     { path:'product/edit/:id', component:ProductFormComponent, resolve: { product: ProductResolver } },
     { path:'new', component:SaleFormComponent, resolve: { sale: SaleResolver } },
-    { path:'edit/:id', component:SaleFormComponent, resolve: { product: SaleResolver } },
+    { path:'edit/:id', component:SaleFormComponent, resolve: { sale: SaleResolver } },
 ];

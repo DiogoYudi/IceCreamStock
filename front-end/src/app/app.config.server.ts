@@ -6,6 +6,7 @@ import { serverRoutes } from './app.routes.server';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 const serverConfig: ApplicationConfig = {
   providers: [

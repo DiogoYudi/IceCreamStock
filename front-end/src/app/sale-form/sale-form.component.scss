@@ -2,11 +2,15 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    flex-wrap: wrap;
+    height: 100%;
 }
 
 .products-container {
     flex: 1;
     margin-right: 20px;
+    min-width: 50%;
+    box-sizing: border-box;
   }
 
 h3{
@@ -34,5 +38,31 @@ mat-grid-tile {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    box-sizing: border-box;
 }
-  
+
+mat-form-field{
+    color: rgb(177, 177, 177);
+}
+
+mat-option{
+    color: white;
+    border: 1px solid white;
+    border-radius: 100px;
+}
+
+mat-list-item{
+    color: white;
+}
+
+.totalprice{
+    color: white;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 15px;
+}

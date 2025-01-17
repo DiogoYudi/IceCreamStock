@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,10 @@ import { Product } from '../models/product';
 import { ProductService } from '../service/product.service';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { Sale } from '../models/sale';
+import { table } from 'console';
 
 @Component({
   selector: 'app-sale-form',
@@ -29,7 +32,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     CommonModule,
     MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule,
+    MatListModule
   ],
   templateUrl: './sale-form.component.html',
   styleUrl: './sale-form.component.scss'
@@ -37,11 +42,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class SaleFormComponent implements OnInit {
   form: FormGroup;
   products$: Observable<{ category: string, products: Product[] }[]> | null = null;
-  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService){
+  selectedTable: number = 0;
+  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService, private saleService: SaleService){
     this.form = this.formBuilder.group({
       id: [],
-      tableNum: ['', [Validators.required]],
-      status: [true, [Validators.required]],
+      tableNum: [ [Validators.required]],
+      status: [ [Validators.required]],
       totalprice: [ [Validators.required]],
       date: [Validators.required],
     });
@@ -83,7 +89,28 @@ export class SaleFormComponent implements OnInit {
     return result;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const sale: Sale = this.route.snapshot.data['sale'];
+    if(sale.id == 0) sale.id = NaN;
+    this.form.setValue({
+      id: sale.id,
+      tableNum: sale.tableNum,
+      status: true,
+      totalprice: sale.totalprice,
+      date: new Date()
+    });
+  }
+
+  productAux: Product[] = [];
+
+  onAdd(product: Product){
+    this.productAux.push(product);
+  }
+
+  saveSale(){
+    this.updateTotalPrice();
+    this.onSubmit();
+  }
 
   onSubmit(){
     this.service.save(this.form.value).subscribe(result => this.onSucess(), error => this.onError("Erro ao iniciar venda!"));
@@ -109,7 +136,12 @@ export class SaleFormComponent implements OnInit {
     return "Campo Inválido";
   }
 
-  onAdd(){
+  totalPrice(): number{
+    return this.productAux.reduce((total, product) => total + product.price, 0);
+  }
 
+  updateTotalPrice(){
+    const totalprice = this.totalPrice();
+    this.form.patchValue({ totalprice });
   }
 }

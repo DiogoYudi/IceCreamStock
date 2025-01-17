@@ -17,7 +17,7 @@ export class ProductService {
     );
   }
 
-  loadById(id: string){
+  loadById(id: number){
     return this.httpClient.get<Product>(`${this.API}/${id}`);
   }
 

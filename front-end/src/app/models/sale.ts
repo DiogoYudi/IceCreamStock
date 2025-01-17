@@ -1,6 +1,6 @@
 export interface Sale{
     id: number;
-    table: number;
+    tableNum: number;
     status: boolean;
     totalprice: number;
     date: Date;

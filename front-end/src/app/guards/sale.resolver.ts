@@ -13,6 +13,6 @@ export class SaleResolver{
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Sale>{
     if(route.params && route.params['id']) return this.service.loadById(route.params['id']);
-    return of({id: 0, table: 0, status: false, totalprice: 0, date: new Date()});
+    return of({id: 0, tableNum: 0, status: true, totalprice: 0, date: new Date()});
   }
 }
