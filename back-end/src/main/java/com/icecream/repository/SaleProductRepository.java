@@ -3,9 +3,8 @@ package com.icecream.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.icecream.model.Sale;
+import com.icecream.model.SaleProduct;
 
 @Repository
-public interface SaleRepository extends JpaRepository<Sale, Long>{
-    Sale findTopByOrderByIdDesc();
+public interface SaleProductRepository extends JpaRepository<SaleProduct, Long> {
 }

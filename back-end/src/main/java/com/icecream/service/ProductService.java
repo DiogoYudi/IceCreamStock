@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.icecream.dto.ProductDTO;
 import com.icecream.dto.ProductMapper;
 import com.icecream.exception.RecordNotFoundException;
-import com.icecream.model.Product;
 import com.icecream.repository.ProductRepository;
 
 import jakarta.validation.Valid;
@@ -39,7 +38,6 @@ public class ProductService {
 
     public ProductDTO update(@NotNull @Positive Long id, @Valid @NotNull ProductDTO productDTO){
         return productRepository.findById(id).map(recordFound -> {
-            Product product = productMapper.toEntity(productDTO);
             recordFound.setName(productDTO.name());
             recordFound.setPrice(productDTO.price());
             recordFound.setCategory(productDTO.category());

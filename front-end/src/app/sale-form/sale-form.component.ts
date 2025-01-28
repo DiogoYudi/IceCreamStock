@@ -43,7 +43,7 @@ export class SaleFormComponent implements OnInit {
   form: FormGroup;
   products$: Observable<{ category: string, products: Product[] }[]> | null = null;
   selectedTable: number = 0;
-  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService, private saleService: SaleService){
+  constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService){
     this.form = this.formBuilder.group({
       id: [],
       tableNum: [ [Validators.required]],
@@ -114,6 +114,10 @@ export class SaleFormComponent implements OnInit {
 
   onSubmit(){
     this.service.save(this.form.value).subscribe(result => this.onSucess(), error => this.onError("Erro ao iniciar venda!"));
+    const products = Object.values(this.groupProductsByQuantity(this.productAux));
+    for(let i = 0; i < products.length; i++){
+      this.service.saveSaleProduct(this.form.value.id, products[i]); 
+    }
   }
 
   onCancel(){
@@ -144,4 +148,26 @@ export class SaleFormComponent implements OnInit {
     const totalprice = this.totalPrice();
     this.form.patchValue({ totalprice });
   }
+
+
+  groupProductsByQuantity(products: Product[]): { [id: number]: { qtd: number, totalPrice: number } } {
+    const productMap: { [id: number]: { qtd: number, totalPrice: number } } = {};
+  
+    products.forEach(product => {
+      if (productMap[product.id]) {
+        productMap[product.id].qtd += 1;
+      } else {
+        productMap[product.id] = {
+          qtd: 1,
+          totalPrice: product.price
+        };
+      }
+    });
+    return Object.values(productMap).map((product, index) => ({
+      id_product: Object.keys(productMap)[index],
+      qtd: product.qtd,
+      totalPrice: product.totalPrice
+    }));
+  }
+  
 }

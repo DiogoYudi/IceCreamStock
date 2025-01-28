@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.icecream.dto.ProductDTO;
-import com.icecream.service.ProductService;
+import com.icecream.dto.SaleDTO;
+import com.icecream.dto.SaleProductDTO;
+import com.icecream.service.SaleProductService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -24,39 +24,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @Validated
 @CrossOrigin(origins = "*")
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/sale-product")
+public class SaleProductController {
     @Autowired
-    private ProductService productService;
+    private SaleProductService saleProductService;
 
     @GetMapping
-    public List<ProductDTO> list(){
-        return productService.list();
-    }
-
-    @GetMapping("/{id}")
-    public ProductDTO findById(@PathVariable @NotNull @Positive Long id){
-        return productService.findById(id);
+    public List<SaleProductDTO> list(){
+        return saleProductService.list();
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ProductDTO create(@RequestBody @Valid @NotNull ProductDTO product){
-        return productService.create(product);
-    }
-    
-    @PutMapping("/{id}")
-    public ProductDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull ProductDTO product){
-        return productService.update(id, product);
+    public SaleProductDTO create(@RequestBody @Valid @NotNull SaleProductDTO body){
+        return saleProductService.create(body);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable @NotNull @Positive Long id){
-        productService.delete(id);
+    @PutMapping("/{id}")
+    public SaleProductDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull SaleProductDTO body){
+        return saleProductService.update(id, body);
     }
 }

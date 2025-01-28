@@ -34,13 +34,16 @@ public class SaleService {
         return saleRepository.findById(id).map(saleMapper::toDTO).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    public Sale findTopByOrderByIdDesc(){
+        return saleRepository.findTopByOrderByIdDesc();
+    }
+
     public SaleDTO create(@Valid @NotNull SaleDTO sale){
         return saleMapper.toDTO(saleRepository.save(saleMapper.toEntity(sale)));
     }
 
     public SaleDTO update(@NotNull @Positive Long id, @Valid @NotNull SaleDTO saleDTO){
         return saleRepository.findById(id).map(recordFound -> {
-            Sale sale = saleMapper.toEntity(saleDTO);
             recordFound.setTableNum(saleDTO.tableNum());
             recordFound.setStatus(saleDTO.status());
             recordFound.setTotalprice(saleDTO.totalprice());
