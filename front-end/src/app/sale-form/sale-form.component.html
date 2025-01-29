@@ -36,13 +36,7 @@
         <mat-form-field>
           <mat-label>Mesa</mat-label>
           <mat-select matNativeControl required formControlName="tableNum" #tableNum>
-            <mat-option value=1>1</mat-option>
-            <mat-option value=2>2</mat-option>
-            <mat-option value=3>3</mat-option>
-            <mat-option value=4>4</mat-option>
-            <mat-option value=5>5</mat-option>
-            <mat-option value=6>6</mat-option>
-            <mat-option value=7>7</mat-option>
+            <mat-option *ngFor="let table of [1, 2, 3, 4, 5, 6, 7]" [value]="table">{{ table }}</mat-option>
           </mat-select>
         </mat-form-field>
       </form>
@@ -54,7 +48,7 @@
       </mat-list>
 
       <div style="text-align: right; font-weight: bold; font-size: 18px;" class="totalprice">
-          Total: R$ {{ totalPrice() }}
+        Total: R$ {{ total_Price | currency:'BRL' }}
       </div>
       <div class="buttons">
         <button mat-mini-fab aria-label="Cancel" (click)="onCancel()">
@@ -63,6 +57,13 @@
         <button mat-mini-fab aria-label="Save" (click)="saveSale()">
           <mat-icon>sync_saved_locally</mat-icon>
         </button>
+      </div>
+      <div class="items">
+        <ul>
+          <li *ngFor="let product of productsSale$ | async">
+            {{ productNames[product.id_product] || 'Carregando...' }}
+          </li>
+        </ul>
       </div>
     </div>
 </div>

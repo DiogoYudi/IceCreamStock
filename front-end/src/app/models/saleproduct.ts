@@ -3,5 +3,5 @@ export interface SaleProduct{
     id_product: number;
     id_sale: boolean;
     qtd: number;
-    priceProduct: number;
+    total_price: number;
 }

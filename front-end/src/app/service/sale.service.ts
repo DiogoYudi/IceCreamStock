@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Sale } from '../models/sale';
-import { Product } from '../models/product';
-import { SaleProduct } from '../models/SaleProduct';
 import { lastValueFrom, Observable } from 'rxjs';
+import { SaleProduct } from '../models/saleproduct';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +21,16 @@ export class SaleService {
     return this.httpClient.get<Sale>(`${this.API}/${id}`);
   }
 
+  loadByIdSale(id: number){
+    return this.httpClient.get<SaleProduct[]>(`${this.API2}/${id}`);
+  }
+
   save(sale: Partial<Sale>){
     if(sale.id) return this.update(sale);
     return this.create(sale);
   }
 
   async saveSaleProduct(saleId: number, product: any){
-    console.log(product.totalPrice);
     if(!saleId){
       try {
         const lastSale = await lastValueFrom(this.getLastSaleId());
@@ -47,7 +49,7 @@ export class SaleService {
       id_product: product.id_product,
       id_sale: saleId,
       qtd: product.qtd,
-      totalPrice: product.totalPrice * product.qtd
+      total_price: product.totalPrice * product.qtd
     };
     return this.createSaleProduct(body);
   }
@@ -59,10 +61,10 @@ export class SaleService {
   private createSaleProduct(body: any){
     this.httpClient.post<SaleProduct>(this.API2, body).subscribe({
       next: (response) => {
-        console.log('SaleProduct created successfully:', response);
+        console.log('Produto Adicionado', response);
       },
       error: (err) => {
-        console.error('Error occurred while creating SaleProduct:', err);
+        console.error('Erro ao tentar adicionar produto', err);
       }
     });
   }
