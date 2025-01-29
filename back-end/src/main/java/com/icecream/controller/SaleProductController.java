@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.icecream.dto.SaleDTO;
 import com.icecream.dto.SaleProductDTO;
 import com.icecream.service.SaleProductService;
 
@@ -35,6 +34,11 @@ public class SaleProductController {
     @GetMapping
     public List<SaleProductDTO> list(){
         return saleProductService.list();
+    }
+
+    @GetMapping("/{idSale}")
+    public List<SaleProductDTO> findByIdSale(@PathVariable Long idSale) {
+        return saleProductService.findByIdSale(idSale);
     }
 
     @PostMapping

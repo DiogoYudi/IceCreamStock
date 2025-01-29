@@ -1,5 +1,6 @@
 package com.icecream.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,8 @@ public class SaleProduct {
     private Long id_product;
 
     @NotNull
-    private Long id_sale;
+    @Column(name = "id_sale")
+    private Long idSale;
 
     @NotNull
     private int qtd;
