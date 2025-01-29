@@ -40,6 +40,7 @@ public class SaleProductController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public SaleProductDTO create(@RequestBody @Valid @NotNull SaleProductDTO body){
+        System.out.println(body);
         return saleProductService.create(body);
     }
 

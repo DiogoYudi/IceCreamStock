@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -18,18 +17,14 @@ public class SaleProduct {
     private Long id;
 
     @NotNull
-    @NotBlank
     private Long id_product;
 
     @NotNull
-    @NotBlank
     private Long id_sale;
 
     @NotNull
-    @NotBlank
     private int qtd;
 
     @NotNull
-    @NotBlank
     private double totalPrice;
 }
