@@ -30,24 +30,10 @@ export class SaleService {
     return this.create(sale);
   }
 
-  async saveSaleProduct(saleId: number, product: any){
-    if(!saleId){
-      try {
-        const lastSale = await lastValueFrom(this.getLastSaleId());
-        if (!lastSale) {
-          console.error('Não foi possível encontrar a última venda.');
-          return;
-        }
-        saleId = lastSale.id;
-      } catch (error) {
-        console.error('Erro ao buscar a última venda', error);
-        return;
-      }
-    }
-    
+  async saveSaleProduct(sale: Sale, product: any){
     const body = {
       id_product: product.id_product,
-      id_sale: saleId,
+      id_sale: sale.id,
       qtd: product.qtd,
       total_price: product.totalPrice * product.qtd
     };
@@ -75,9 +61,5 @@ export class SaleService {
 
   delete(id: number){
     return this.httpClient.delete<Sale>(`${this.API}/${id}`);
-  }
-
-  getLastSaleId(): Observable<Sale> {
-    return this.httpClient.get<Sale>(`${this.API}/last-sale`);
   }
 }

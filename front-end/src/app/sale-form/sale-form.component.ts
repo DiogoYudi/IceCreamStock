@@ -75,17 +75,17 @@ export class SaleFormComponent implements OnInit {
   loadSaleProducts(saleId: number){
     this.productsSale$ = this.service.loadByIdSale(saleId);
     this.loadProductName();
-    this.productsSale$.subscribe((saleProducts: SaleProduct[]) => {
-      this.updateTotalPrice();
-    });
+    this.updateTotalPrice();
   }
 
   loadProductName(){
     this.productsSale$.subscribe((saleProducts: SaleProduct[]) => {
       saleProducts.forEach(product => {
-        this.productService.loadById(product.id_product).subscribe((productData: Product) => {
-          this.productNames[product.id_product] = productData.name;
-        })
+        for(let i = 0; i < product.qtd; i++){
+          this.productService.loadById(product.id_product).subscribe((productData: Product) => {
+            this.productAux.push(productData);
+          })
+        }
       })
     })
   }
@@ -110,20 +110,22 @@ export class SaleFormComponent implements OnInit {
   }
 
   onSubmit(){
-    this.service.save(this.form.value).subscribe(result => this.onSucess(), error => this.onError("Erro ao iniciar venda!"));
-    const products = Object.values(this.groupProductsByQuantity(this.productAux));
-    for(let i = 0; i < products.length; i++){
-      this.service.saveSaleProduct(this.form.value.id, products[i]);
-    }
-  }
-
-  onCancel(){
-    this.location.back();
+    this.service.save(this.form.value).subscribe(result => {
+      const products = Object.values(this.groupProductsByQuantity(this.productAux));
+      for(let i = 0; i < products.length; i++){
+        this.service.saveSaleProduct(result, products[i]);
+      }
+      this.onSucess();
+    }, error => this.onError("Erro ao iniciar venda!"));
   }
 
   private onSucess(){
     this.snackBar.open("Venda adicionado!", "", { duration: 2000 });
     this.onCancel();
+  }
+
+  onCancel(){
+    this.location.back();
   }
 
   private onError(message: string){
@@ -139,6 +141,7 @@ export class SaleFormComponent implements OnInit {
 
   updateTotalPrice(){
     if (this.productAux.length > 0){
+      console.log(this.productAux.length);
       this.total_Price = this.productAux.reduce((total, product) => total + product.price, 0);
     }else{
       this.productsSale$.subscribe((saleProducts: SaleProduct[]) => {
@@ -148,6 +151,26 @@ export class SaleFormComponent implements OnInit {
       });
     }
     this.form.patchValue({ totalprice: this.total_Price });
+  }
+
+  groupProductsByQuantity(products: Product[]): { [id: number]: { qtd: number, totalPrice: number } } {
+    const productMap: { [id: number]: { qtd: number, totalPrice: number } } = {};
+  
+    products.forEach(product => {
+      if (productMap[product.id]) {
+        productMap[product.id].qtd += 1;
+      } else {
+        productMap[product.id] = {
+          qtd: 1,
+          totalPrice: product.price
+        };
+      }
+    });
+    return Object.values(productMap).map((product, index) => ({
+      id_product: Object.keys(productMap)[index],
+      qtd: product.qtd,
+      totalPrice: product.totalPrice
+    }));
   }
 
   groupByCategory(products: Product[]): { category: string, products: Product[] }[] {
@@ -173,25 +196,4 @@ export class SaleFormComponent implements OnInit {
     }
     return result;
   }
-
-  groupProductsByQuantity(products: Product[]): { [id: number]: { qtd: number, totalPrice: number } } {
-    const productMap: { [id: number]: { qtd: number, totalPrice: number } } = {};
-  
-    products.forEach(product => {
-      if (productMap[product.id]) {
-        productMap[product.id].qtd += 1;
-      } else {
-        productMap[product.id] = {
-          qtd: 1,
-          totalPrice: product.price
-        };
-      }
-    });
-    return Object.values(productMap).map((product, index) => ({
-      id_product: Object.keys(productMap)[index],
-      qtd: product.qtd,
-      totalPrice: product.totalPrice
-    }));
-  }
-  
 }

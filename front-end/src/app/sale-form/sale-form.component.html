@@ -48,7 +48,7 @@
       </mat-list>
 
       <div style="text-align: right; font-weight: bold; font-size: 18px;" class="totalprice">
-        Total: R$ {{ total_Price | currency:'BRL' }}
+        Total: {{ total_Price | currency:'BRL' }}
       </div>
       <div class="buttons">
         <button mat-mini-fab aria-label="Cancel" (click)="onCancel()">
@@ -57,13 +57,6 @@
         <button mat-mini-fab aria-label="Save" (click)="saveSale()">
           <mat-icon>sync_saved_locally</mat-icon>
         </button>
-      </div>
-      <div class="items">
-        <ul>
-          <li *ngFor="let product of productsSale$ | async">
-            {{ productNames[product.id_product] || 'Carregando...' }}
-          </li>
-        </ul>
       </div>
     </div>
 </div>
