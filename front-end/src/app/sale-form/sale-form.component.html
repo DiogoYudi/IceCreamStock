@@ -41,15 +41,20 @@
         </mat-form-field>
       </form>
       
-
-      <mat-list *ngFor="let productCart of productAux">
-        <mat-list-item>{{ productCart.name }}</mat-list-item>
-        <mat-divider></mat-divider>
-      </mat-list>
-
       <div style="text-align: right; font-weight: bold; font-size: 18px;" class="totalprice">
         Total: {{ total_Price | currency:'BRL' }}
       </div>
+
+      <mat-list *ngFor="let productCart of productAux">
+        <div class="bodyCart">
+          <mat-list-item>{{ productCart.name }}</mat-list-item>
+          <button mat-mini-fab aria-label="Remover Produto" (click)="onRemove(productCart.id)">
+              <mat-icon>remove</mat-icon>
+          </button>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list>
+
       <div class="buttons">
         <button mat-mini-fab aria-label="Cancel" (click)="onCancel()">
           <mat-icon>delete_forever</mat-icon>
@@ -62,5 +67,5 @@
 </div>
 
 <ng-template #loading>
-    <p>Carregando produtos...</p>
+  <p>Carregando produtos...</p>
 </ng-template>

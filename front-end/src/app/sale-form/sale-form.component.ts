@@ -19,6 +19,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { Sale } from '../models/sale';
 import { SaleProduct } from '../models/saleproduct';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-sale-form',
@@ -34,7 +35,8 @@ import { SaleProduct } from '../models/saleproduct';
     MatGridListModule,
     MatIconModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatTableModule
   ],
   templateUrl: './sale-form.component.html',
   styleUrl: './sale-form.component.scss'
@@ -46,6 +48,7 @@ export class SaleFormComponent implements OnInit {
   productNames: { [key: number]: string } = {};
   productAux: Product[] = [];
   total_Price: number = 0;
+  readonly displayedColumns = ['name', 'actions'];
   constructor(private formBuilder: NonNullableFormBuilder, private service: SaleService, private snackBar: MatSnackBar, private location: Location, private route: ActivatedRoute, private productService: ProductService, private changeDetectorRef: ChangeDetectorRef){
     this.form = this.formBuilder.group({
       id: [0],
@@ -105,6 +108,25 @@ export class SaleFormComponent implements OnInit {
     this.updateTotalPrice();
   }
 
+  onCancel(){
+    this.location.back();
+  }
+
+  onRemove(id: number){
+    const sale: Sale = this.route.snapshot.data['sale'];
+    console.log(this.service.deleteProduct(id, sale.id).subscribe((response) => {
+      console.log("Produto deletado", response);
+    },
+    (error) => {
+      console.log("Erro ao deletar", error);
+    }
+  ));
+    // const index = this.productAux.findIndex(products => products.id === id);
+    // if(index !== -1){
+    //   this.productAux.splice(index, 1);
+    // }
+  }
+
   saveSale(){
     this.onSubmit();
   }
@@ -122,10 +144,6 @@ export class SaleFormComponent implements OnInit {
   private onSucess(){
     this.snackBar.open("Venda adicionado!", "", { duration: 2000 });
     this.onCancel();
-  }
-
-  onCancel(){
-    this.location.back();
   }
 
   private onError(message: string){

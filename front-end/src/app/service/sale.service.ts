@@ -62,4 +62,8 @@ export class SaleService {
   delete(id: number){
     return this.httpClient.delete<Sale>(`${this.API}/${id}`);
   }
+
+  deleteProduct(idProduct: number, idSale: number){
+    return this.httpClient.delete<SaleProduct>(`${this.API2}/${idProduct}/${idSale}`);
+  }
 }
