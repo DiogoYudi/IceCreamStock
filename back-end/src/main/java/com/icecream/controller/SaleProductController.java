@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,5 +52,11 @@ public class SaleProductController {
     @PutMapping("/{id}")
     public SaleProductDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull SaleProductDTO body){
         return saleProductService.update(id, body);
+    }
+
+    @DeleteMapping("/{id_product}/{idSale}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id_product, @PathVariable @NotNull @Positive Long idSale){
+        saleProductService.deleteProduct(id_product, idSale);
     }
 }

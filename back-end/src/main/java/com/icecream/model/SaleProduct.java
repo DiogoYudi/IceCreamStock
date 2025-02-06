@@ -18,7 +18,8 @@ public class SaleProduct {
     private Long id;
 
     @NotNull
-    private Long id_product;
+    @Column(name = "id_product")
+    private Long idProduct;
 
     @NotNull
     @Column(name = "id_sale")
