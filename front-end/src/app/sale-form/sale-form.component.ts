@@ -121,10 +121,11 @@ export class SaleFormComponent implements OnInit {
       console.log("Erro ao deletar", error);
     }
   ));
-    // const index = this.productAux.findIndex(products => products.id === id);
-    // if(index !== -1){
-    //   this.productAux.splice(index, 1);
-    // }
+    const index = this.productAux.findIndex(products => products.id === id);
+    if(index !== -1){
+      this.productAux.splice(index, 1);
+    }
+    this.updateTotalPrice();
   }
 
   saveSale(){
@@ -132,8 +133,12 @@ export class SaleFormComponent implements OnInit {
   }
 
   onSubmit(){
+    this.updateTotalPrice();
     this.service.save(this.form.value).subscribe(result => {
       const products = Object.values(this.groupProductsByQuantity(this.productAux));
+      this.service.deleteSaleProduct(result.id).subscribe(result => {
+        console.log("A" + result);
+      });
       for(let i = 0; i < products.length; i++){
         this.service.saveSaleProduct(result, products[i]);
       }

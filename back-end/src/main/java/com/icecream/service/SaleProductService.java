@@ -14,6 +14,7 @@ import com.icecream.exception.RecordNotFoundException;
 import com.icecream.model.SaleProduct;
 import com.icecream.repository.SaleProductRepository;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -69,5 +70,10 @@ public class SaleProductService {
                 }
             }
         }
+    }
+
+    @Transactional 
+    public void deleteSaleProduct(@NotNull @Positive Long idSale){
+        saleProductRepository.deleteByIdSale(idSale);
     }
 }

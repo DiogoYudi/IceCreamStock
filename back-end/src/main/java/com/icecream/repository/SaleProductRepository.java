@@ -12,4 +12,5 @@ import com.icecream.model.SaleProduct;
 public interface SaleProductRepository extends JpaRepository<SaleProduct, Long> {
     List<SaleProduct> findByIdSale(Long idSale);
     Optional<SaleProduct> findByIdProductAndIdSale(Long idProduct, Long idSale);
+    void deleteByIdSale(Long idSale);
 }

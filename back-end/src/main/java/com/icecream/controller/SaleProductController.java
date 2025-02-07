@@ -54,6 +54,12 @@ public class SaleProductController {
         return saleProductService.update(id, body);
     }
 
+    @DeleteMapping("/{idSale}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteSaleProduct(@PathVariable @NotNull @Positive Long idSale){
+        saleProductService.deleteSaleProduct(idSale);
+    }
+
     @DeleteMapping("/{id_product}/{idSale}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @NotNull @Positive Long id_product, @PathVariable @NotNull @Positive Long idSale){

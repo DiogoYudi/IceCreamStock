@@ -63,6 +63,10 @@ export class SaleService {
     return this.httpClient.delete<Sale>(`${this.API}/${id}`);
   }
 
+  deleteSaleProduct(id: number){
+    return this.httpClient.delete<Sale>(`${this.API2}/${id}`); 
+  }
+
   deleteProduct(idProduct: number, idSale: number){
     return this.httpClient.delete<SaleProduct>(`${this.API2}/${idProduct}/${idSale}`);
   }
