@@ -45,7 +45,6 @@ public class SaleProductController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public SaleProductDTO create(@RequestBody @Valid @NotNull SaleProductDTO body){
-        System.out.println(body);
         return saleProductService.create(body);
     }
 
@@ -57,12 +56,14 @@ public class SaleProductController {
     @DeleteMapping("/{idSale}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteSaleProduct(@PathVariable @NotNull @Positive Long idSale){
+        System.out.println("1");
         saleProductService.deleteSaleProduct(idSale);
     }
 
     @DeleteMapping("/{id_product}/{idSale}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable @NotNull @Positive Long id_product, @PathVariable @NotNull @Positive Long idSale){
+        System.out.println("2");
         saleProductService.deleteProduct(id_product, idSale);
     }
 }

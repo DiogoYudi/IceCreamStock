@@ -15,7 +15,6 @@ import lombok.Data;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE sale SET status = false WHERE id = ?")
 @Table(name = "sale")
 public class Sale {
     @Id
