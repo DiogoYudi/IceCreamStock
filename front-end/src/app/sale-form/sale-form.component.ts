@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SaleService } from '../service/sale.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, concatMap, from, map, Observable, of } from 'rxjs';
 import { Product } from '../models/product';
 import { ProductService } from '../service/product.service';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -112,6 +112,22 @@ export class SaleFormComponent implements OnInit {
     this.location.back();
   }
 
+  saveSale(){
+    this.onSubmit();
+  }
+
+  finishSale(){
+    const sale: Sale = this.route.snapshot.data['sale'];
+    sale.status = false;
+    this.service.update(sale).subscribe(result => {
+      console.log(result);
+    });
+    this.service.deleteSaleProduct(sale.id).subscribe(result => {
+      console.log(result);
+    });
+    this.onCancel();
+  }
+
   onRemove(id: number){
     const sale: Sale = this.route.snapshot.data['sale'];
     console.log(this.service.deleteProduct(id, sale.id).subscribe((response) => {
@@ -128,22 +144,23 @@ export class SaleFormComponent implements OnInit {
     this.updateTotalPrice();
   }
 
-  saveSale(){
-    this.onSubmit();
-  }
-
   onSubmit(){
     this.updateTotalPrice();
-    this.service.save(this.form.value).subscribe(result => {
-      const products = Object.values(this.groupProductsByQuantity(this.productAux));
-      this.service.deleteSaleProduct(result.id).subscribe(result => {
-        console.log("A" + result);
-      });
-      for(let i = 0; i < products.length; i++){
-        this.service.saveSaleProduct(result, products[i]);
-      }
-      this.onSucess();
-    }, error => this.onError("Erro ao iniciar venda!"));
+    this.service.save(this.form.value).pipe(
+      concatMap(result => {
+        return this.service.deleteSaleProduct(result.id).pipe(
+          concatMap(() => {
+            const products = Object.values(this.groupProductsByQuantity(this.productAux));
+            return from(products).pipe(
+              concatMap(product => this.service.saveSaleProduct(result, product))
+            );
+          })
+        );
+      })
+    ).subscribe({
+      next: () => this.onSucess(),
+      error: (error) => this.onError("Erro ao iniciar venda!")
+    });
   }
 
   private onSucess(){

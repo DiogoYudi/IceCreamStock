@@ -55,7 +55,7 @@ export class SaleService {
     });
   }
 
-  private update(sale: Partial<Sale>){
+  update(sale: Partial<Sale>){
     return this.httpClient.put<Sale>(`${this.API}/${sale.id}`, sale);
   }
 

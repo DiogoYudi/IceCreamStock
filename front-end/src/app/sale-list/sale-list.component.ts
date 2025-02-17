@@ -60,13 +60,16 @@ export class SaleListComponent implements OnInit{
 
   onDelete(sale: Sale){
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: "Deseja deletar esse produto?",
+      data: "Deseja deletar essa venda?",
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if(result){
         this.saleService.delete(sale.id).subscribe(() => {
+          this.saleService.deleteSaleProduct(sale.id).subscribe(result => {
+            console.log(result);
+          });
           this.refresh();
-          this.snackBar.open("Produto removido!", "X", {
+          this.snackBar.open("Venda deletada!", "X", {
             duration: 2000,
             verticalPosition: 'top',
             horizontalPosition: 'center'

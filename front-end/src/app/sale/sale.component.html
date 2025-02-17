@@ -9,7 +9,7 @@
     <ng-container matColumnDef="totalprice">
         <mat-header-cell *matHeaderCellDef> Preço Total </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.totalprice}} 
-            <mat-icon aria-hidden="false" aria-label="Preço do Produto">{{ element.price }}</mat-icon> 
+            <mat-icon aria-hidden="false" aria-label="Preço Total">{{ element.price }}</mat-icon> 
         </mat-cell>
     </ng-container>
 
@@ -23,15 +23,15 @@
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef class="action-column">
-            <button mat-mini-fab aria-label="Adicionar Produto" (click)="onAdd()">
+            <button mat-mini-fab aria-label="Nova Venda" (click)="onAdd()">
                 <mat-icon>add</mat-icon>
             </button>
         </mat-header-cell>
-        <mat-cell *matCellDef="let product" class="action-column">
-            <button mat-icon-button aria-label="Editar Curso" style="color: aqua" (click)="onEdit(product)">
+        <mat-cell *matCellDef="let sale" class="action-column">
+            <button mat-icon-button aria-label="Editar Venda" style="color: aqua" (click)="onEdit(sale)">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button aria-label="Deletar Curso" style="color: red" (click)="onDelete(product)">
+            <button mat-icon-button aria-label="Deletar Venda" style="color: red" (click)="onDelete(sale)">
                 <mat-icon>delete</mat-icon>
             </button>
         </mat-cell>
